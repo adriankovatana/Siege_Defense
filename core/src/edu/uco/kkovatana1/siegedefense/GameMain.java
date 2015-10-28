@@ -7,12 +7,16 @@ public class GameMain extends Game {
 	public StartScreen startScreen;
 	public DefenseGameScreen defenseGameScreen;
 	public SiegeGameScreen siegeGameScreen;
+	public DefenseLoadoutScreen defenseLoadoutScreen;
+	public SiegeLoadoutScreen siegeLoadoutScreen;
 	
 	@Override
 	public void create () {
 		startScreen = new StartScreen(this);
 		defenseGameScreen = new DefenseGameScreen(this);
 		siegeGameScreen = new SiegeGameScreen(this);
+		defenseLoadoutScreen = new DefenseLoadoutScreen(this);
+		siegeLoadoutScreen = new SiegeLoadoutScreen(this);
 
 		setScreen(startScreen);
 	}

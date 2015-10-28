@@ -3,6 +3,8 @@ package edu.uco.kkovatana1.siegedefense;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -11,16 +13,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class StartScreen implements Screen {
-    GameMain game;
-    SpriteBatch batch;
-    Stage stage;
-    Skin skin;
-    //Button.ButtonStyle buttonStyle;
+    private GameMain game;
+    private SpriteBatch batch;
+    private Stage stage;
+    private Skin skin;
 
-    TextButton defenseBtn;
-    TextButton siegeBtn;
+    private TextButton defenseBtn;
+    private TextButton siegeBtn;
+    private TextButton scoreBtn;
+    private Sprite background;
+    private Sprite title;
 
-    //Image tempBtn;
+    private Texture backgroundTexture;
+    private Texture titleTexture;
 
     public StartScreen(GameMain game){
         this.game = game;
@@ -30,20 +35,25 @@ public class StartScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         stage = new Stage();
-
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-        //buttonStyle = new TextButton.TextButtonStyle();
+
+        //Background & title
+        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/startscreen.png"));
+        background = new Sprite(backgroundTexture);
+        titleTexture = new Texture(Gdx.files.internal("backgrounds/title.png"));
+        title = new Sprite(titleTexture);
+        title.setPosition(Gdx.graphics.getWidth() * 0.02f, Gdx.graphics.getHeight() * 0.55f);
 
         //Base Defense button
-        defenseBtn = new TextButton("Base Defense", skin, "default");
-        defenseBtn.getLabel().setFontScale(3.0f);
-        defenseBtn.setWidth(Gdx.graphics.getWidth() * 0.8f);
+        defenseBtn = new TextButton("Base\nDefense", skin, "default");
+        defenseBtn.getLabel().setFontScale(2.0f);
+        defenseBtn.setWidth(Gdx.graphics.getWidth() * 0.36f);
         defenseBtn.setHeight(Gdx.graphics.getHeight() * 0.1f);
-        defenseBtn.setPosition(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.2f);
+        defenseBtn.setPosition(Gdx.graphics.getWidth() * 0.03f, Gdx.graphics.getHeight() * 0.02f);
         defenseBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.defenseGameScreen);
+                game.setScreen(game.defenseLoadoutScreen);
                 return true;
             }
         });
@@ -51,29 +61,33 @@ public class StartScreen implements Screen {
 
         //Siege button
         siegeBtn = new TextButton("Siege", skin, "default");
-        siegeBtn.getLabel().setFontScale(3.0f);
-        siegeBtn.setWidth(Gdx.graphics.getWidth() * 0.8f);
+        siegeBtn.getLabel().setFontScale(2.0f);
+        siegeBtn.setWidth(Gdx.graphics.getWidth() * 0.34f);
         siegeBtn.setHeight(Gdx.graphics.getHeight() * 0.1f);
-        siegeBtn.setPosition(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.31f);
+        siegeBtn.setPosition(Gdx.graphics.getWidth() * 0.41f, Gdx.graphics.getHeight() * 0.02f);
         siegeBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.siegeGameScreen);
+                game.setScreen(game.siegeLoadoutScreen);
                 return true;
             }
         });
         stage.addActor(siegeBtn);
 
-        /*tempBtn = new Image(new Texture(Gdx.files.internal("badlogic.jpg")));
-        tempBtn.setPosition(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/8);
-        tempBtn.addListener(new ClickListener() {
+        //Score button
+        scoreBtn = new TextButton("Quit", skin, "default");
+        scoreBtn.getLabel().setFontScale(2.0f);
+        scoreBtn.setWidth(Gdx.graphics.getWidth() * 0.2f);
+        scoreBtn.setHeight(Gdx.graphics.getHeight() * 0.1f);
+        scoreBtn.setPosition(Gdx.graphics.getWidth() * 0.77f, Gdx.graphics.getHeight() * 0.02f);
+        scoreBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.defenseGameScreen);
+                Gdx.app.exit();
                 return true;
             }
         });
-        stage.addActor(tempBtn);*/
+        stage.addActor(scoreBtn);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -84,8 +98,10 @@ public class StartScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        stage.draw();
+        background.draw(batch);
+        title.draw(batch);
         batch.end();
+        stage.draw();
     }
 
     @Override
