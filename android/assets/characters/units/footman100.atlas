@@ -1,0 +1,124 @@
+
+footman100.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+standingN
+  rotate: false
+  xy: 1, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+standingNE
+  rotate: false
+  xy: 101, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+standingE
+  rotate: false
+  xy: 201, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+standingSE
+  rotate: false
+  xy: 301, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+standingS
+  rotate: false
+  xy: 401, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+walkingN
+  rotate: false
+  xy: 1, 101
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+walkingNE
+  rotate: false
+  xy: 101, 101
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+walkingE
+  rotate: false
+  xy: 201, 101
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+walkingSE
+  rotate: false
+  xy: 301, 101
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+walkingS
+  rotate: false
+  xy: 401, 101
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+attackingN
+  rotate: false
+  xy: 1, 501
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+attackingNE
+  rotate: false
+  xy: 101, 501
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+attackingE
+  rotate: false
+  xy: 201, 501
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+attackingSE
+  rotate: false
+  xy: 301, 501
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+attackingS
+  rotate: false
+  xy: 401, 501
+  size: 100, 400
+  orig: 100, 400
+  offset: 0, 0
+  index: -1
+dyingN
+  rotate: false
+  xy: 1, 901
+  size: 500, 100
+  orig: 500, 100
+  offset: 0, 0
+  index: -1
+dyingS
+  rotate: false
+  xy: 1, 1001
+  size: 500, 100
+  orig: 500, 100
+  offset: 0, 0
+  index: -1
