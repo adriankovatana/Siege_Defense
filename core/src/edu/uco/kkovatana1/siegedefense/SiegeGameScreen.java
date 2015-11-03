@@ -27,9 +27,9 @@ public class SiegeGameScreen implements Screen {
     private PauseOverlay resumeBtn;
     private PauseOverlay quitBtn;
 
-    private Entity footman;
-    private Entity footman2;
-    private Entity footman3;
+    private Unit footman;
+    private Unit footman2;
+    private Unit footman3;
 
     public SiegeGameScreen(GameMain game){
         this.game = game;
@@ -65,8 +65,8 @@ public class SiegeGameScreen implements Screen {
         stage.addActor(settings);
 
         //Game actors for testing
-        footman = new Entity(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.25f,
-                "characters/units/footman200.atlas", 0.25f);
+        footman = new Unit(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.25f,
+                "characters/units/footman200.atlas", 50.0f, 100.0f);
         footman.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -80,8 +80,8 @@ public class SiegeGameScreen implements Screen {
         });
         stage.addActor(footman);
 
-        footman2 = new Entity(Gdx.graphics.getWidth() * 0.4f, Gdx.graphics.getHeight() * 0.25f,
-                "characters/units/footman200.atlas", 0.25f);
+        footman2 = new Unit(Gdx.graphics.getWidth() * 0.4f, Gdx.graphics.getHeight() * 0.25f,
+                "characters/units/footman200.atlas", 50.0f, 100.0f);
         footman2.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -96,8 +96,8 @@ public class SiegeGameScreen implements Screen {
         });
         stage.addActor(footman2);
 
-        footman3 = new Entity(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.25f,
-                "characters/units/footman200.atlas", 0.25f);
+        footman3 = new Unit(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.25f,
+                "characters/units/footman200.atlas", 50.0f, 100.0f);
         footman3.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
