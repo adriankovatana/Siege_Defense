@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class PauseOverlay extends Image{
     private boolean paused;
 
-    public PauseOverlay(Texture texture, float x, float y){
-        super(texture);
+    public PauseOverlay(String textureFilePath, float x, float y){
+        super(GameMain.assetManager.get(textureFilePath, Texture.class));
         this.setPosition(x,y);
         this.paused = false;
         this.setVisible(false);

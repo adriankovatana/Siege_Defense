@@ -24,9 +24,6 @@ public class StartScreen implements Screen {
     private Sprite background;
     private Sprite title;
 
-    private Texture backgroundTexture;
-    private Texture titleTexture;
-
     public StartScreen(GameMain game){
         this.game = game;
     }
@@ -35,13 +32,11 @@ public class StartScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         stage = new Stage();
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        skin = GameMain.assetManager.get("ui/uiskin.json", Skin.class);
 
         //Background & title
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/startscreen.png"));
-        background = new Sprite(backgroundTexture);
-        titleTexture = new Texture(Gdx.files.internal("backgrounds/title.png"));
-        title = new Sprite(titleTexture);
+        background = new Sprite(GameMain.assetManager.get("backgrounds/startscreen.png", Texture.class));
+        title = new Sprite(GameMain.assetManager.get("backgrounds/title.png",Texture.class));
         title.setPosition(Gdx.graphics.getWidth() * 0.02f, Gdx.graphics.getHeight() * 0.55f);
 
         //Base Defense button

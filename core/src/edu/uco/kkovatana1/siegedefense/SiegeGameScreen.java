@@ -1,12 +1,11 @@
 package edu.uco.kkovatana1.siegedefense;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,22 +13,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class SiegeGameScreen implements Screen {
     private GameMain game;
-    private SpriteBatch batch;
     private Stage stage;
 
-    private Texture backgroundTexture;
-    private Texture settingsTexture;
+    private TexturedActor background;
+    private Image gameOver;
+    private Actor selectedActor;
 
-    private Sprite background;
-    private Image settings;
+    private Group backgroundGroup;
+    private Group gameActorsGroup;
+    private Group uiGroup;
 
-    private PauseOverlay pauseOverlay;
-    private PauseOverlay resumeBtn;
-    private PauseOverlay quitBtn;
-
-    private Unit footman;
-    private Unit footman2;
-    private Unit footman3;
+    //Temp Units
+    private Footman footman;
+    private Footman footman2;
+    private Footman footman3;
+    private Footman footman4;
+    private Wall wall;
 
     public SiegeGameScreen(GameMain game){
         this.game = game;
@@ -37,164 +36,111 @@ public class SiegeGameScreen implements Screen {
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
         stage = new Stage();
         Globals.PAUSED = false;
+        backgroundGroup = new Group();
+        gameActorsGroup = new Group();
+        uiGroup = new SiegeGameUI(this);
+        stage.addActor(backgroundGroup);
+        stage.addActor(gameActorsGroup);
+        stage.addActor(uiGroup);
 
         //Background
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/siege.png"));
-        background = new Sprite(backgroundTexture);
-        settingsTexture = new Texture(Gdx.files.internal("ui/buttons/settings.png"));
-        settings = new Image(settingsTexture);
-        settings.setPosition(Gdx.graphics.getWidth() * 0.92f, Gdx.graphics.getHeight() * 0.955f);
-        settings.addListener(new ClickListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!Globals.PAUSED) {
-                    Globals.PAUSED = !Globals.PAUSED;
-                    pauseOverlay.setPaused(Globals.PAUSED);
-                    resumeBtn.setPaused(Globals.PAUSED);
-                    quitBtn.setPaused(Globals.PAUSED);
-                    Gdx.app.log("Button", "Settings");
-                    return true;
-                }
-                Gdx.app.log("Button", "Settings failed");
-                return false;
-            }
-        });
-        stage.addActor(settings);
+        background = new TexturedActor(GameMain.assetManager.get("backgrounds/siege.png", Texture.class));
+        backgroundGroup.addActor(background);
+
+        //Game Actors
+        wall = new Wall();
+        gameActorsGroup.addActor(wall);
 
         //Game actors for testing
-        footman = new Unit(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.25f,
-                "characters/units/footman200.atlas", 50.0f, 100.0f);
+        footman = new Footman(-10f, 40f, wall);
         footman.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (footman.animator.getState() == Globals.EntityState.STANDING) {
-                    footman.animator.setState(Globals.EntityState.ATTACKING);
+                    footman.moveToPosition(wall.getPosition(0), false);
                 } else {
-                    footman.animator.setState(Globals.EntityState.STANDING);
+                    footman.animator.setState(Globals.EntityState.DYING);
                 }
                 return true;
             }
         });
-        stage.addActor(footman);
+        gameActorsGroup.addActor(footman);
 
-        footman2 = new Unit(Gdx.graphics.getWidth() * 0.4f, Gdx.graphics.getHeight() * 0.25f,
-                "characters/units/footman200.atlas", 50.0f, 100.0f);
+        footman2 = new Footman(170f, 40f, wall);
         footman2.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(footman2.animator.getState() == Globals.EntityState.STANDING) {
-                    footman2.animator.setState(Globals.EntityState.WALKING);
-                }
-                else {
-                    footman2.animator.setState(Globals.EntityState.STANDING);
+                if (footman2.animator.getState() == Globals.EntityState.STANDING) {
+                    footman2.moveToPosition(wall.getPosition(1), false);
+                } else {
+                    footman2.animator.setState(Globals.EntityState.DYING);
                 }
                 return true;
             }
         });
-        stage.addActor(footman2);
+        gameActorsGroup.addActor(footman2);
 
-        footman3 = new Unit(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.25f,
-                "characters/units/footman200.atlas", 50.0f, 100.0f);
+        footman3 = new Footman(350f, 40f, wall);
         footman3.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(footman3.animator.getState() == Globals.EntityState.STANDING) {
+                if (footman3.animator.getState() == Globals.EntityState.STANDING) {
+                    footman3.moveToPosition(wall.getPosition(2), false);
+                } else {
                     footman3.animator.setState(Globals.EntityState.DYING);
-                }
-                else {
-                    footman3.animator.setState(Globals.EntityState.STANDING);
                 }
                 return true;
             }
         });
-        stage.addActor(footman3);
+        gameActorsGroup.addActor(footman3);
 
-        //PAUSE MENU
-        //Pause Overlay
-        pauseOverlay = new PauseOverlay(new Texture(Gdx.files.internal("ui/pauseoverlay.png")),0,0);
-        stage.addActor(pauseOverlay);
-        //Resume Button
-        resumeBtn = new PauseOverlay(new Texture(Gdx.files.internal("ui/buttons/resume.png")),
-                Gdx.graphics.getWidth()*0.25f, Gdx.graphics.getHeight()*0.55f);
-        resumeBtn.addListener(new ClickListener(){
+        footman4 = new Footman(530f, 40f, wall);
+        footman4.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if( Globals.PAUSED) {
-                    Globals.PAUSED = ! Globals.PAUSED;
-                    pauseOverlay.setPaused( Globals.PAUSED);
-                    resumeBtn.setPaused( Globals.PAUSED);
-                    quitBtn.setPaused( Globals.PAUSED);
-                    Gdx.app.log("Button", "Resume");
-                    return true;
+                if (footman4.animator.getState() == Globals.EntityState.STANDING) {
+                    footman4.moveToPosition(wall.getPosition(3), false);
+                } else {
+                    footman4.animator.setState(Globals.EntityState.DYING);
                 }
-                Gdx.app.log("Button", "Resume failed");
-                return false;
+                return true;
             }
         });
-        stage.addActor(resumeBtn);
-        //Quit Button
-        quitBtn = new PauseOverlay(new Texture(Gdx.files.internal("ui/buttons/quit.png")),
-                Gdx.graphics.getWidth()*0.25f, Gdx.graphics.getHeight()*0.45f);
-        quitBtn.addListener(new ClickListener(){
+        gameActorsGroup.addActor(footman4);
+
+        //Game Over Overlay
+        gameOver = new Image(GameMain.assetManager.get("backgrounds/gameover.png", Texture.class));
+        gameOver.setPosition(0, Gdx.graphics.getHeight()*0.4f);
+        gameOver.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if( Globals.PAUSED) {
-                    game.setScreen(game.startScreen);
-                    return true;
-                }
-                return false;
+                game.setScreen(game.startScreen);
+                return true;
             }
         });
-        stage.addActor(quitBtn);
+        stage.addActor(gameOver);
+        gameOver.setVisible(false);
 
         Gdx.input.setInputProcessor(stage);
+        selectedActor = null;
     }
 
     @Override
     public void render(float delta) {
-        //INPUT
-        if(Globals.PAUSED){
-            //Currently Nothing!
-        }
-        // Unpaused
-        else{
-            if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-                footman.animator.setDirection(Globals.Direction.W);
-                footman2.animator.setDirection(Globals.Direction.W);
-                footman3.animator.setDirection(Globals.Direction.W);
-                Gdx.app.log("FOOTMAN", "West");
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-                footman.animator.setDirection(Globals.Direction.N);
-                footman2.animator.setDirection(Globals.Direction.N);
-                footman3.animator.setDirection(Globals.Direction.N);
-                Gdx.app.log("FOOTMAN", "North");
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-                footman.animator.setDirection(Globals.Direction.E);
-                footman2.animator.setDirection(Globals.Direction.E);
-                footman3.animator.setDirection(Globals.Direction.E);
-                Gdx.app.log("FOOTMAN", "East");
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-                footman.animator.setDirection(Globals.Direction.S);
-                footman2.animator.setDirection(Globals.Direction.S);
-                footman3.animator.setDirection(Globals.Direction.S);
-                Gdx.app.log("FOOTMAN", "South");
-            }
-        }
-
         //UPDATE
         if(!Globals.PAUSED){
             stage.act();
+            if(wall.health <= 0){
+                gameOver.setVisible(true);
+                Globals.PAUSED = true;
+            }
         }
 
         //RENDER
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        background.draw(batch);
-        batch.end();
         stage.draw();
     }
 
@@ -221,5 +167,10 @@ public class SiegeGameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public void quit() {
+        dispose();
+        game.setScreen(game.startScreen);
     }
 }

@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,19 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class DefenseGameScreen implements Screen {
     private GameMain game;
-    private SpriteBatch batch;
     private Stage stage;
 
-    private Texture backgroundTexture;
-    private Texture settingsTexture;
+    private TexturedActor background;
+    private Image gameOver;
 
-    private Sprite background;
-    private Image settings;
+    private Group backgroundGroup;
+    private Group gameActorsGroup;
+    private Group uiGroup;
 
-    private boolean paused;
-    private PauseOverlay pauseOverlay;
-    private PauseOverlay resumeBtn;
-    private PauseOverlay quitBtn;
+//    private Wall wall;
 
     public DefenseGameScreen(GameMain game){
         this.game = game;
@@ -34,84 +30,53 @@ public class DefenseGameScreen implements Screen {
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
         stage = new Stage();
-        paused = false;
+        Globals.PAUSED = false;
+        backgroundGroup = new Group();
+        gameActorsGroup = new Group();
+        uiGroup = new DefenseGameUI(this);
+        stage.addActor(backgroundGroup);
+        stage.addActor(gameActorsGroup);
+        stage.addActor(uiGroup);
 
         //Background
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/basedefense.png"));
-        background = new Sprite(backgroundTexture);
-        settingsTexture = new Texture(Gdx.files.internal("ui/buttons/settings.png"));
-        settings = new Image(settingsTexture);
-        settings.setPosition(Gdx.graphics.getWidth() * 0.92f, Gdx.graphics.getHeight() * 0.955f);
-        settings.addListener(new ClickListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!paused) {
-                    paused = !paused;
-                    pauseOverlay.setPaused(paused);
-                    resumeBtn.setPaused(paused);
-                    quitBtn.setPaused(paused);
-                    Gdx.app.log("Button", "Settings");
-                    return true;
-                }
-                Gdx.app.log("Button", "Settings failed");
-                return false;
-            }
-        });
-        stage.addActor(settings);
+        background = new TexturedActor(GameMain.assetManager.get("backgrounds/basedefense.png", Texture.class));
+        backgroundGroup.addActor(background);
 
-        //Pause Menu
-        pauseOverlay = new PauseOverlay(new Texture(Gdx.files.internal("ui/pauseoverlay.png")),0,0);
-        stage.addActor(pauseOverlay);
-        resumeBtn = new PauseOverlay(new Texture(Gdx.files.internal("ui/buttons/resume.png")),
-                Gdx.graphics.getWidth()*0.25f, Gdx.graphics.getHeight()*0.55f);
-        resumeBtn.addListener(new ClickListener(){
+        //Game Actors
+        /*wall = new Wall();
+        gameActorsGroup.addActor(wall);*/
+
+        //Game Over Overlay
+        gameOver = new Image(GameMain.assetManager.get("backgrounds/gameover.png", Texture.class));
+        gameOver.setPosition(0, Gdx.graphics.getHeight() * 0.4f);
+        gameOver.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(paused) {
-                    paused = !paused;
-                    pauseOverlay.setPaused(paused);
-                    resumeBtn.setPaused(paused);
-                    quitBtn.setPaused(paused);
-                    Gdx.app.log("Button", "Resume");
-                    return true;
-                }
-                Gdx.app.log("Button", "Resume failed");
-                return false;
+                game.setScreen(game.startScreen);
+                return true;
             }
         });
-        stage.addActor(resumeBtn);
-        quitBtn = new PauseOverlay(new Texture(Gdx.files.internal("ui/buttons/quit.png")),
-                Gdx.graphics.getWidth()*0.25f, Gdx.graphics.getHeight()*0.45f);
-        quitBtn.addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(paused) {
-                    game.setScreen(game.startScreen);
-                    return true;
-                }
-                return false;
-            }
-        });
-        stage.addActor(quitBtn);
+        stage.addActor(gameOver);
+        gameOver.setVisible(false);
 
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
-        //Input
+        //UPDATE
+        if(!Globals.PAUSED){
+            stage.act();
+            /*if(wall.health <= 0){
+                gameOver.setVisible(true);
+                Globals.PAUSED = true;
+            }*/
+        }
 
-        //Update
-        stage.act();
-
-        //Render
+        //RENDER
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        background.draw(batch);
-        batch.end();
         stage.draw();
     }
 
@@ -138,5 +103,10 @@ public class DefenseGameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public void quit() {
+        dispose();
+        game.setScreen(game.startScreen);
     }
 }

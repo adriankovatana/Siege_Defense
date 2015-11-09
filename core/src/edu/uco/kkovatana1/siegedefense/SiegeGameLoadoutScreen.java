@@ -12,7 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class DefenseLoadoutScreen implements Screen {
+public class SiegeGameLoadoutScreen implements Screen {
+
     private GameMain game;
     private SpriteBatch batch;
     private Stage stage;
@@ -28,10 +29,7 @@ public class DefenseLoadoutScreen implements Screen {
     private Sprite background;
     //private Sprite title;
 
-    private Texture backgroundTexture;
-    //private Texture titleTexture;
-
-    public DefenseLoadoutScreen(GameMain game){
+    public SiegeGameLoadoutScreen(GameMain game){
         this.game = game;
     }
 
@@ -42,8 +40,7 @@ public class DefenseLoadoutScreen implements Screen {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         //Background & title
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/loadout.png"));
-        background = new Sprite(backgroundTexture);
+        background = new Sprite(GameMain.assetManager.get("backgrounds/loadout.png", Texture.class));
         //titleTexture = new Texture(Gdx.files.internal("backgrounds/title.png"));
         //title = new Sprite(titleTexture);
         //title.setPosition(Gdx.graphics.getWidth() * 0.02f, Gdx.graphics.getHeight() * 0.55f);
@@ -134,7 +131,7 @@ public class DefenseLoadoutScreen implements Screen {
         stage.addActor(unit6Btn);
 
         //Start Game Button
-        defendBtn = new TextButton("Defend!", skin, "default");
+        defendBtn = new TextButton("Siege!", skin, "default");
         defendBtn.getLabel().setFontScale(2.0f);
         defendBtn.setWidth(Gdx.graphics.getWidth() * 0.6f);
         defendBtn.setHeight(Gdx.graphics.getHeight() * 0.06f);
@@ -142,7 +139,7 @@ public class DefenseLoadoutScreen implements Screen {
         defendBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.defenseGameScreen);
+                game.setScreen(game.siegeGameScreen);
                 return true;
             }
         });

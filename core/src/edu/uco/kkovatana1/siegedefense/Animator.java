@@ -7,15 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Animator {
-    private int width;
-    private int height;
-    private float stateTime;
-    private Globals.EntityState state;
-    private Globals.Direction direction;
+    protected int width;
+    protected int height;
+    protected float stateTime;
+    protected Globals.EntityState state;
+    protected Globals.Direction direction;
 
     private TextureAtlas textureAtlas;
-    private TextureRegion currentFrame;
-    private TextureRegion standing;
+    protected TextureRegion currentFrame;
+    protected TextureRegion standing;
     private TextureRegion[] walkingN;
     private TextureRegion[] walkingNE;
     private TextureRegion[] walkingE;
@@ -28,9 +28,9 @@ public class Animator {
     private TextureRegion[] attackingS;
     private TextureRegion[] dyingN;
     private TextureRegion[] dyingS;
-    private Animation walkAnim;
-    private Animation atkAnim;
-    private Animation dthAnim;
+    protected Animation walkAnim;
+    protected Animation atkAnim;
+    protected Animation dthAnim;
 
 //    private Animation walkAnimN;
 //    private Animation walkAnimNE;
@@ -46,15 +46,15 @@ public class Animator {
 //    private Animation getDeathAnimS;
 
     public Animator(String atlasFilePath){
-        this.textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
+        this.textureAtlas = GameMain.assetManager.get(atlasFilePath, TextureAtlas.class);
 
         //Standing initial
-        this.standing = this.textureAtlas.findRegion("standingS");
+        this.standing = this.textureAtlas.findRegion("standingN");
         this.width = this.standing.getRegionWidth();
         this.height = this.standing.getRegionHeight();
         this.stateTime = 0f;
         this.state = Globals.EntityState.STANDING;
-        this.direction = Globals.Direction.S;
+        this.direction = Globals.Direction.N;
 
         //Walking South
         TextureRegion textureRegion = this.textureAtlas.findRegion("walkingS");
@@ -67,7 +67,6 @@ public class Animator {
                 this.walkingS[index++] = tmp[i][j];
             }
         }
-        this.walkAnim = new Animation(Globals.ANIMATIONRATE, this.walkingS);
 
         //Walking North
         textureRegion = this.textureAtlas.findRegion("walkingN");
@@ -80,6 +79,7 @@ public class Animator {
                 this.walkingN[index++] = tmp[i][j];
             }
         }
+        this.walkAnim = new Animation(Globals.ANIMATIONRATE, this.walkingN);
 
         //Attacking South
         textureRegion = this.textureAtlas.findRegion("attackingS");
@@ -92,7 +92,6 @@ public class Animator {
                 this.attackingS[index++] = tmp[i][j];
             }
         }
-        this.atkAnim = new Animation(Globals.ANIMATIONRATE, this.attackingS);
 
         //Attacking North
         textureRegion = this.textureAtlas.findRegion("attackingN");
@@ -105,6 +104,8 @@ public class Animator {
                 this.attackingN[index++] = tmp[i][j];
             }
         }
+        this.atkAnim = new Animation(Globals.ANIMATIONRATE, this.attackingN);
+        this.atkAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
         //Dying South
         textureRegion = this.textureAtlas.findRegion("dyingS");
@@ -117,8 +118,6 @@ public class Animator {
                 this.dyingS[index++] = tmp[i][j];
             }
         }
-        this.dthAnim = new Animation(Globals.ANIMATIONRATE, this.dyingS);
-        this.dthAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
         //Dying North
         textureRegion = this.textureAtlas.findRegion("dyingN");
@@ -131,6 +130,8 @@ public class Animator {
                 this.dyingN[index++] = tmp[i][j];
             }
         }
+        this.dthAnim = new Animation(Globals.ANIMATIONRATE, this.dyingN);
+        this.dthAnim.setPlayMode(Animation.PlayMode.NORMAL);
     }
 
     public void draw(Batch batch, float x, float y){

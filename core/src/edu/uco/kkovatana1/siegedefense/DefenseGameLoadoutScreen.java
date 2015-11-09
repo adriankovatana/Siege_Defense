@@ -12,8 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class SiegeLoadoutScreen implements Screen {
-
+public class DefenseGameLoadoutScreen implements Screen {
     private GameMain game;
     private SpriteBatch batch;
     private Stage stage;
@@ -29,10 +28,7 @@ public class SiegeLoadoutScreen implements Screen {
     private Sprite background;
     //private Sprite title;
 
-    private Texture backgroundTexture;
-    //private Texture titleTexture;
-
-    public SiegeLoadoutScreen(GameMain game){
+    public DefenseGameLoadoutScreen(GameMain game){
         this.game = game;
     }
 
@@ -40,11 +36,10 @@ public class SiegeLoadoutScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         stage = new Stage();
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        skin = GameMain.assetManager.get("ui/uiskin.json", Skin.class);
 
         //Background & title
-        backgroundTexture = new Texture(Gdx.files.internal("backgrounds/loadout.png"));
-        background = new Sprite(backgroundTexture);
+        background = new Sprite(GameMain.assetManager.get("backgrounds/loadout.png", Texture.class));
         //titleTexture = new Texture(Gdx.files.internal("backgrounds/title.png"));
         //title = new Sprite(titleTexture);
         //title.setPosition(Gdx.graphics.getWidth() * 0.02f, Gdx.graphics.getHeight() * 0.55f);
@@ -135,7 +130,7 @@ public class SiegeLoadoutScreen implements Screen {
         stage.addActor(unit6Btn);
 
         //Start Game Button
-        defendBtn = new TextButton("Siege!", skin, "default");
+        defendBtn = new TextButton("Defend!", skin, "default");
         defendBtn.getLabel().setFontScale(2.0f);
         defendBtn.setWidth(Gdx.graphics.getWidth() * 0.6f);
         defendBtn.setHeight(Gdx.graphics.getHeight() * 0.06f);
@@ -143,7 +138,7 @@ public class SiegeLoadoutScreen implements Screen {
         defendBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.siegeGameScreen);
+                game.setScreen(game.defenseGameScreen);
                 return true;
             }
         });
