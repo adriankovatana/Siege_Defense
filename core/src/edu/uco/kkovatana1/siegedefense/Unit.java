@@ -23,6 +23,7 @@ public class Unit extends Actor {
     protected float maxHealth;
     protected float damage;
     protected boolean attacked;
+    protected String iconPath;
 
     public Unit(float x, float y, String atlasFilePath, float hitBoxRadius, float rangeBoxRadius, Wall target){
         this.setPosition(x,y);

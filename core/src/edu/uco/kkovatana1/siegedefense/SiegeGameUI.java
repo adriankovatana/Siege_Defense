@@ -15,6 +15,7 @@ public class SiegeGameUI extends Group{
     private TexturedActor pauseOverlay;
     private Image resumeBtn;
     private Image quitBtn;
+    private UnitDeployer unitDeployer;
 
     public SiegeGameUI(SiegeGameScreen screen){
         this.screen = screen;
@@ -36,6 +37,15 @@ public class SiegeGameUI extends Group{
             }
         });
         unpausedGroup.addActor(settings);
+
+        unitDeployer = new UnitDeployer();
+        unitDeployer.cell1.icon.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //Add unit to game
+                return true;
+            }
+        });
 
         //Paused group
         pauseOverlay = new TexturedActor(GameMain.assetManager.get("ui/pauseoverlay.png", Texture.class));
