@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class TexturedActor extends Actor {
 
-    private TextureRegion textureRegion;
+    protected TextureRegion textureRegion;
 
     public TexturedActor(Texture texture){
         this.textureRegion = new TextureRegion(texture);

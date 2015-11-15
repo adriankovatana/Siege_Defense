@@ -12,7 +12,6 @@ public class GameMain extends Game {
     public DefenseGameScreen defenseGameScreen;
     public SiegeGameScreen siegeGameScreen;
     public DefenseGameLoadoutScreen defenseLoadoutScreen;
-    public SiegeGameLoadoutScreen siegeLoadoutScreen;
 
     public static AssetManager assetManager;
     private boolean loaded;
@@ -39,9 +38,9 @@ public class GameMain extends Game {
         startScreen.dispose();
         defenseLoadoutScreen.dispose();
         defenseGameScreen.dispose();
-        siegeLoadoutScreen.dispose();
         siegeGameScreen.dispose();
         assetManager.clear();
+        loadingScreen.dispose();
     }
 
     private void init(){
@@ -49,7 +48,6 @@ public class GameMain extends Game {
         defenseGameScreen = new DefenseGameScreen(this);
         siegeGameScreen = new SiegeGameScreen(this);
         defenseLoadoutScreen = new DefenseGameLoadoutScreen(this);
-        siegeLoadoutScreen = new SiegeGameLoadoutScreen(this);
 
         loaded = true;
         setScreen(startScreen);
@@ -60,6 +58,7 @@ public class GameMain extends Game {
         assetManager.load("backgrounds/title.png", Texture.class);
         assetManager.load("backgrounds/startscreen.png", Texture.class);
         assetManager.load("backgrounds/gameover.png", Texture.class);
+        assetManager.load("backgrounds/victory.png", Texture.class);
         assetManager.load("backgrounds/basedefense.png", Texture.class);
         assetManager.load("backgrounds/siege.png", Texture.class);
         assetManager.load("backgrounds/loadout.png", Texture.class);
@@ -72,6 +71,11 @@ public class GameMain extends Game {
         assetManager.load("ui/healthbarback.png", Texture.class);
         assetManager.load("ui/healthbarfill.png", Texture.class);
         assetManager.load("ui/uiskin.json", Skin.class);
+        assetManager.load("ui/deployerbox.png", Texture.class);
+        assetManager.load("ui/deployercooldown.png", Texture.class);
+
+        //Icons
+        assetManager.load("characters/icons/footmanicon.png", Texture.class);
 
         //Units
         assetManager.load("characters/units/footman200.atlas", TextureAtlas.class);

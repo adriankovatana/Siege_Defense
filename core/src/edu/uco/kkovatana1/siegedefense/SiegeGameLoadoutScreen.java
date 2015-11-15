@@ -1,52 +1,96 @@
 package edu.uco.kkovatana1.siegedefense;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Disposable;
 
-public class SiegeGameLoadoutScreen implements Screen {
+public class SiegeGameLoadoutScreen implements Disposable {
 
-    private GameMain game;
-    private SpriteBatch batch;
+    private SiegeGameScreen screen;
     private Stage stage;
     private Skin skin;
+
+    private SiegeGame siegeGame;
+    private UnitDeployer unitDeployer;
 
     private TextButton unit1Btn;
     private TextButton unit2Btn;
     private TextButton unit3Btn;
     private TextButton unit4Btn;
-    private TextButton unit5Btn;
-    private TextButton unit6Btn;
     private TextButton defendBtn;
-    private Sprite background;
-    //private Sprite title;
+    private TexturedActor background;
+    private Label goldLabel;
 
-    public SiegeGameLoadoutScreen(GameMain game){
-        this.game = game;
+    public SiegeGameLoadoutScreen(SiegeGameScreen screen){
+        this.screen = screen;
+        siegeGame = new SiegeGame();
+
+        siegeGame.footman.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                addToLoadout(siegeGame.footman);
+                return true;
+            }
+        });
     }
 
-    @Override
     public void show() {
-        batch = new SpriteBatch();
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        background = new TexturedActor(GameMain.assetManager.get("backgrounds/loadout.png", Texture.class));
+        stage.addActor(background);
 
-        //Background & title
-        background = new Sprite(GameMain.assetManager.get("backgrounds/loadout.png", Texture.class));
-        //titleTexture = new Texture(Gdx.files.internal("backgrounds/title.png"));
-        //title = new Sprite(titleTexture);
-        //title.setPosition(Gdx.graphics.getWidth() * 0.02f, Gdx.graphics.getHeight() * 0.55f);
+        //Icons
+        goldLabel = new Label("Gold: " + siegeGame.gold, GameMain.assetManager.get("ui/uiskin.json", Skin.class));
+        goldLabel.setPosition(Gdx.graphics.getWidth() * 0.38f, Gdx.graphics.getHeight() * 0.012f);
+        goldLabel.setFontScale(3.0f);
+        stage.addActor(goldLabel);
+
+        //Unit Deployer
+        unitDeployer = new UnitDeployer();
+        unitDeployer.cell1.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                unitDeployer.cell1.setUnit(null);
+                return true;
+            }
+        });
+        unitDeployer.cell2.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                unitDeployer.cell2.setUnit(null);
+                return true;
+            }
+        });
+        unitDeployer.cell3.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                unitDeployer.cell3.setUnit(null);
+                return true;
+            }
+        });
+        unitDeployer.cell4.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                unitDeployer.cell4.setUnit(null);
+                return true;
+            }
+        });
+        stage.addActor(unitDeployer);
 
         //Unit Buttons
-        unit1Btn = new TextButton("Purchase", skin, "default");
+        stage.addActor(siegeGame.footman);
+        if(siegeGame.footman.purchased)
+            unit1Btn = new TextButton("Upgrade", skin, "default");
+        else
+            unit1Btn = new TextButton("Purchase", skin, "default");
         unit1Btn.getLabel().setFontScale(1.5f);
         unit1Btn.setWidth(Gdx.graphics.getWidth() * 0.26f);
         unit1Btn.setHeight(Gdx.graphics.getHeight() * 0.05f);
@@ -54,7 +98,12 @@ public class SiegeGameLoadoutScreen implements Screen {
         unit1Btn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Unit1Button", "Pressed");
+                if(!siegeGame.footman.purchased){
+                    siegeGame.purchaseUnit(siegeGame.footman);
+                    unit1Btn.setText("Upgrade");
+                } else {
+                    siegeGame.upgradeDamage(siegeGame.footman);
+                }
                 return true;
             }
         });
@@ -102,44 +151,16 @@ public class SiegeGameLoadoutScreen implements Screen {
         });
         stage.addActor(unit4Btn);
 
-        unit5Btn = new TextButton("Purchase", skin, "default");
-        unit5Btn.getLabel().setFontScale(1.5f);
-        unit5Btn.setWidth(Gdx.graphics.getWidth() * 0.26f);
-        unit5Btn.setHeight(Gdx.graphics.getHeight() * 0.05f);
-        unit5Btn.setPosition(Gdx.graphics.getWidth() * 0.125f, Gdx.graphics.getHeight() * 0.11f);
-        unit5Btn.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Unit5Button", "Pressed");
-                return true;
-            }
-        });
-        stage.addActor(unit5Btn);
-
-        unit6Btn = new TextButton("Purchase", skin, "default");
-        unit6Btn.getLabel().setFontScale(1.5f);
-        unit6Btn.setWidth(Gdx.graphics.getWidth() * 0.26f);
-        unit6Btn.setHeight(Gdx.graphics.getHeight() * 0.05f);
-        unit6Btn.setPosition(Gdx.graphics.getWidth() * 0.62f, Gdx.graphics.getHeight() * 0.11f);
-        unit6Btn.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Unit6Button", "Pressed");
-                return true;
-            }
-        });
-        stage.addActor(unit6Btn);
-
         //Start Game Button
         defendBtn = new TextButton("Siege!", skin, "default");
         defendBtn.getLabel().setFontScale(2.0f);
         defendBtn.setWidth(Gdx.graphics.getWidth() * 0.6f);
-        defendBtn.setHeight(Gdx.graphics.getHeight() * 0.06f);
-        defendBtn.setPosition(Gdx.graphics.getWidth() * 0.22f, Gdx.graphics.getHeight() * 0.02f);
+        defendBtn.setHeight(Gdx.graphics.getHeight() * 0.04f);
+        defendBtn.setPosition(Gdx.graphics.getWidth() * 0.22f, Gdx.graphics.getHeight() * 0.22f);
         defendBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.siegeGameScreen);
+                screen.startSiegeGame(unitDeployer);
                 return true;
             }
         });
@@ -147,41 +168,33 @@ public class SiegeGameLoadoutScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    @Override
     public void render(float delta) {
         stage.act();
+        goldLabel.setText("Gold: " + siegeGame.gold);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        background.draw(batch);
-        //title.draw(batch);
-        batch.end();
         stage.draw();
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
+        skin.dispose();
+        stage.dispose();
+    }
 
+    public void addToLoadout(UnitUpgrades unit){
+        if(unitDeployer.cell1.unit == null){
+            unitDeployer.cell1.setUnit(unit);
+        } else if(unitDeployer.cell2.unit == null){
+            unitDeployer.cell2.setUnit(unit);
+        } else if(unitDeployer.cell3.unit == null){
+            unitDeployer.cell3.setUnit(unit);
+        } else if(unitDeployer.cell4.unit == null){
+            unitDeployer.cell4.setUnit(unit);
+        } else {
+            //ALL 4 SLOTS ARE FILLED!
+            Gdx.app.log("LOADOUT", "full");
+        }
     }
 }

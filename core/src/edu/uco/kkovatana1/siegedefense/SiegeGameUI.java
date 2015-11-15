@@ -17,7 +17,7 @@ public class SiegeGameUI extends Group{
     private Image quitBtn;
     private UnitDeployer unitDeployer;
 
-    public SiegeGameUI(SiegeGameScreen screen){
+    public SiegeGameUI(final SiegeGameScreen screen){
         this.screen = screen;
         unpausedGroup = new Group();
         pausedGroup = new Group();
@@ -37,15 +37,9 @@ public class SiegeGameUI extends Group{
             }
         });
         unpausedGroup.addActor(settings);
-
-        unitDeployer = new UnitDeployer();
-        unitDeployer.cell1.icon.addListener(new ClickListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Add unit to game
-                return true;
-            }
-        });
+        this.unitDeployer = this.screen.unitDeployer;
+        initUnitDeployer();
+        unpausedGroup.addActor(this.unitDeployer);
 
         //Paused group
         pauseOverlay = new TexturedActor(GameMain.assetManager.get("ui/pauseoverlay.png", Texture.class));
@@ -74,5 +68,58 @@ public class SiegeGameUI extends Group{
             }
         });
         pausedGroup.addActor(quitBtn);
+    }
+
+    public void initUnitDeployer(){
+
+        unitDeployer.cell1.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(unitDeployer.cell1.unit != null) {
+                    SiegeGameUI.this.screen.addUnit(unitDeployer.cell1.unit, unitDeployer.cell1.getStartPosition(),
+                            SiegeGameScreen.wall.getPosition(0));
+                    unitDeployer.cell1.setOnCooldown();
+                }
+                return true;
+            }
+        });
+
+        unitDeployer.cell2.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(unitDeployer.cell2.unit != null) {
+                    SiegeGameUI.this.screen.addUnit(unitDeployer.cell2.unit, unitDeployer.cell2.getStartPosition(),
+                            SiegeGameScreen.wall.getPosition(1));
+                    unitDeployer.cell2.setOnCooldown();
+                }
+                return true;
+            }
+        });
+
+        unitDeployer.cell3.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(unitDeployer.cell3.unit != null) {
+                    SiegeGameUI.this.screen.addUnit(unitDeployer.cell3.unit, unitDeployer.cell3.getStartPosition(),
+                            SiegeGameScreen.wall.getPosition(2));
+                    unitDeployer.cell3.setOnCooldown();
+                }
+                return true;
+            }
+        });
+
+        unitDeployer.cell4.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(unitDeployer.cell4.unit != null) {
+                    SiegeGameUI.this.screen.addUnit(unitDeployer.cell4.unit, unitDeployer.cell4.getStartPosition(),
+                            SiegeGameScreen.wall.getPosition(3));
+                    unitDeployer.cell4.setOnCooldown();
+                }
+                return true;
+            }
+        });
+
+        unpausedGroup.addActor(unitDeployer);
     }
 }

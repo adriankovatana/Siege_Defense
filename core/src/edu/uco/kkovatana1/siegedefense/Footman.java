@@ -1,10 +1,12 @@
 package edu.uco.kkovatana1.siegedefense;
 
-public class Footman extends Unit {
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-    public Footman(float x, float y, Wall target) {
-        super(x, y, "characters/units/footman200.atlas", 50.0f, 100.0f, target);
-        this.health = this.maxHealth = 10;
-        this.damage = 5;
+public class Footman extends Unit {
+    protected TextureRegion iconRegion;
+
+    public Footman(float x, float y, float damage, float health) {
+        super(x, y, "characters/units/footman200.atlas", damage, health, 50.0f, 100.0f);
+        this.type = Globals.UnitType.FOOTMAN;
     }
 }

@@ -1,9 +1,9 @@
 package edu.uco.kkovatana1.siegedefense;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class UnitDeployer {
+public class UnitDeployer extends Group{
     protected UnitDeployerCell cell1;
     protected UnitDeployerCell cell2;
     protected UnitDeployerCell cell3;
@@ -18,5 +18,9 @@ public class UnitDeployer {
                 Gdx.graphics.getHeight()*0.0625f);
         cell4 = new UnitDeployerCell(Gdx.graphics.getWidth()*0.8055f,
                 Gdx.graphics.getHeight()*0.0625f);
+        this.addActor(cell1);
+        this.addActor(cell2);
+        this.addActor(cell3);
+        this.addActor(cell4);
     }
 }

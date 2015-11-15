@@ -18,14 +18,14 @@ public class Unit extends Actor {
     protected SequenceAction seqAction;
     protected float movementSpeed;
     protected ShapeRenderer shapeRenderer;
-    protected Wall target;
     protected float health;
     protected float maxHealth;
     protected float damage;
     protected boolean attacked;
+    protected Globals.UnitType type;
     protected String iconPath;
 
-    public Unit(float x, float y, String atlasFilePath, float hitBoxRadius, float rangeBoxRadius, Wall target){
+    public Unit(float x, float y, String atlasFilePath, float damage, float health, float hitBoxRadius, float rangeBoxRadius){
         this.setPosition(x,y);
         this.animator = new Animator(atlasFilePath);
         this.setWidth(this.animator.getWidth());
@@ -35,10 +35,11 @@ public class Unit extends Actor {
         this.rangeBox = new Circle(this.getX()+this.getOriginX(),this.getY()+this.getOriginY(),rangeBoxRadius);
         this.seqAction = new SequenceAction();
         this.movementSpeed = 1f;
-        this.target = target;
-        this.health = this.maxHealth = 0;
-        this.damage = 0;
+        this.health = this.maxHealth = health;
+        this.damage = damage;
         this.attacked = false;
+        this.type = Globals.UnitType.NONE;
+        this.iconPath = "";
 
         this.shapeRenderer = new ShapeRenderer();
         //this.setDebug(true);
@@ -70,7 +71,7 @@ public class Unit extends Actor {
                         attacked = false;
                     } else {
                         if(!attacked) {
-                            target.takeDamage(this.damage);
+                            SiegeGameScreen.wall.takeDamage(this.damage);
                             attacked = true;
                             animator.stateTime = 0;
                         }
@@ -87,7 +88,7 @@ public class Unit extends Actor {
     @Override
     public Actor hit(float x, float y, boolean touchable) {
         if (touchable && getTouchable() != Touchable.enabled) return null;
-        return Vector2.dst(this.getOriginX(),this.getOriginY(),x,y) <= this.hitBox.radius ? this : null;
+        return Vector2.dst(this.getOriginX(), this.getOriginY(), x, y) <= this.hitBox.radius ? this : null;
         /*return x >= getOriginX() && x < (getWidth() - getOriginX())
                 && y >= getOriginY() && y < (getHeight() - getOriginY()) ? this : null;*/
     }

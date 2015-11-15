@@ -63,7 +63,7 @@ public class StartScreen implements Screen {
         siegeBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.siegeLoadoutScreen);
+                game.setScreen(game.siegeGameScreen);
                 return true;
             }
         });
