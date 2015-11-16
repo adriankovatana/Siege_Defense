@@ -42,7 +42,7 @@ public class SiegeGameUI extends Group{
         unpausedGroup.addActor(this.unitDeployer);
 
         //Paused group
-        pauseOverlay = new TexturedActor(GameMain.assetManager.get("ui/pauseoverlay.png", Texture.class));
+        pauseOverlay = new TexturedActor("ui/pauseoverlay.png");
         pauseOverlay.setPosition(0, 0);
         pausedGroup.addActor(pauseOverlay);
 

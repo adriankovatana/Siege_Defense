@@ -1,6 +1,5 @@
 package edu.uco.kkovatana1.siegedefense;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class UnitUpgrades extends TexturedActor{
@@ -13,8 +12,8 @@ public class UnitUpgrades extends TexturedActor{
     protected Globals.UnitType type;
 
     public UnitUpgrades(Globals.UnitType type, int cost, float damage, int damageCost, float health,
-                        int healthCost, float x, float y, Texture texture){
-        super(texture);
+                        int healthCost, float x, float y, String filePath){
+        super(filePath);
         this.setPosition(x, y);
         this.setBounds(x, y, textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
         purchased = false;

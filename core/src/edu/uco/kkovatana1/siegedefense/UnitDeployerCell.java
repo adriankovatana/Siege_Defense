@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class UnitDeployerCell extends Actor {
     protected TextureRegion cellOutline;
-    protected TextureRegion icon;
     protected TextureRegion cooldownOverlay;
     protected boolean onCooldown;
     protected float alphaTime;
     protected UnitUpgrades unit;
+    protected float cooldown;
 
     public UnitDeployerCell(float x, float y){
         onCooldown = false;
@@ -24,6 +24,7 @@ public class UnitDeployerCell extends Actor {
         this.setPosition(x,y);
         this.setBounds(x, y, cooldownOverlay.getRegionWidth(), cooldownOverlay.getRegionHeight());
         this.unit = null;
+        this.cooldown = 5;
         this.setTouchable(Touchable.disabled);
     }
 
@@ -54,13 +55,13 @@ public class UnitDeployerCell extends Actor {
         if (onCooldown) {
             if(!Globals.PAUSED)
                 alphaTime += Gdx.graphics.getDeltaTime();
-            if (alphaTime >= 5) {
-                alphaTime = 0;
+            if (alphaTime >= cooldown) {
+                alphaTime = alphaTime - cooldown;
                 onCooldown = false;
                 this.setTouchable(Touchable.enabled);
             } else {
                 batch.draw(cooldownOverlay, getX(), getY(),
-                        getWidth(), getHeight() - (getHeight() * (alphaTime / 5)));
+                        getWidth(), getHeight() - (getHeight() * (alphaTime / cooldown)));
             }
         }
     }

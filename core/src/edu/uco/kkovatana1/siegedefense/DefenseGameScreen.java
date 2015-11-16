@@ -40,7 +40,7 @@ public class DefenseGameScreen implements Screen {
         stage.addActor(uiGroup);
 
         //Background
-        background = new TexturedActor(GameMain.assetManager.get("backgrounds/basedefense.png", Texture.class));
+        background = new TexturedActor("backgrounds/basedefense.png");
         backgroundGroup.addActor(background);
 
         //Game Actors

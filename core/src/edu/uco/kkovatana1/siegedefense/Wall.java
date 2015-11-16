@@ -20,7 +20,7 @@ public class Wall extends Actor{
         this.setPosition(5, 1000);
         this.setWidth(Gdx.graphics.getWidth() - 10);
         this.setHeight(10f);
-        this.health = this.maxHealth = 200f;
+        this.health = this.maxHealth = 1200f;
         this.healthbarBack = new TextureRegion(GameMain.assetManager.get("ui/healthbarback.png", Texture.class));
         this.healthbarFill = new TextureRegion(GameMain.assetManager.get("ui/healthbarfill.png", Texture.class));
         this.positions = new Vector2[4];

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Animator {
+public class UnitAnimator {
     protected int width;
     protected int height;
     protected float stateTime;
@@ -45,7 +45,7 @@ public class Animator {
 //    private Animation deathAnimN;
 //    private Animation getDeathAnimS;
 
-    public Animator(String atlasFilePath){
+    public UnitAnimator(String atlasFilePath){
         this.textureAtlas = GameMain.assetManager.get(atlasFilePath, TextureAtlas.class);
 
         //Standing initial

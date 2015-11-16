@@ -1,7 +1,6 @@
 package edu.uco.kkovatana1.siegedefense;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class SiegeGame {
@@ -14,9 +13,9 @@ public class SiegeGame {
         level = 0;
         gold = 100;
 
-        footman = new UnitUpgrades(Globals.UnitType.FOOTMAN,50,5,10,10,10,
+        footman = new UnitUpgrades(Globals.UnitType.FOOTMAN,50,6,10,60,10,
                 Gdx.graphics.getWidth()*0.18f,Gdx.graphics.getHeight()*0.8f,
-                GameMain.assetManager.get("characters/icons/footmanicon.png", Texture.class));
+                "characters/icons/footmanicon.png");
     }
 
     public boolean purchaseUnit(UnitUpgrades unit){

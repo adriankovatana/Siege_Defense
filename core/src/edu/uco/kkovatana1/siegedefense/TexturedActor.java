@@ -9,12 +9,12 @@ public class TexturedActor extends Actor {
 
     protected TextureRegion textureRegion;
 
-    public TexturedActor(Texture texture){
-        this.textureRegion = new TextureRegion(texture);
+    public TexturedActor(String filePath){
+        this.textureRegion = new TextureRegion(GameMain.assetManager.get(filePath, Texture.class));
     }
 
     @Override
-    public void draw(Batch batch, float alpha){
+    public void draw(Batch batch, float parentAlpha){
         batch.draw(textureRegion, this.getX(), this.getY());
     }
 }

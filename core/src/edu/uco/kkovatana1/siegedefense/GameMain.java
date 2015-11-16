@@ -79,8 +79,13 @@ public class GameMain extends Game {
 
         //Units
         assetManager.load("characters/units/footman200.atlas", TextureAtlas.class);
+        assetManager.load("characters/units/healthbarbackground.png", Texture.class);
+        assetManager.load("characters/units/healthbarfill.png", Texture.class);
 
         //Towers
         assetManager.load("characters/towers/tower.png", Texture.class);
+
+        //Projectiles
+        assetManager.load("characters/projectiles/arrow.png", Texture.class);
     }
 }

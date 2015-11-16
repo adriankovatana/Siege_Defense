@@ -38,7 +38,7 @@ public class DefenseGameUI extends Group{
         unpausedGroup.addActor(settings);
 
         //Paused group
-        pauseOverlay = new TexturedActor(GameMain.assetManager.get("ui/pauseoverlay.png", Texture.class));
+        pauseOverlay = new TexturedActor("ui/pauseoverlay.png");
         pauseOverlay.setPosition(0, 0);
         pausedGroup.addActor(pauseOverlay);
 

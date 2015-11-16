@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -31,8 +32,15 @@ public class SiegeGameScreen implements Screen {
     private SiegeGameUI uiGroup;
 
     protected List<Unit> unitsList;
+    protected List<Unit> unitDeadList;
+    protected List<Tower> towersList;
     protected static Wall wall;
     protected UnitDeployer unitDeployer;
+
+    private Tower tower1;
+    private Tower tower2;
+    private Tower tower3;
+    private Tower tower4;
 
     public SiegeGameScreen(GameMain game){
         this.game = game;
@@ -52,7 +60,28 @@ public class SiegeGameScreen implements Screen {
         //UPDATE
         if(gameState == Globals.GameState.PLAYING) {
             if (!Globals.PAUSED) {
+                for(Tower tower : towersList) {
+                    for (Unit unit : unitsList) {
+                        if (unit.dead) {
+                            if(!unitDeadList.contains(unit))
+                                unitDeadList.add(unit);
+                            continue;
+                        }
+                        if (!tower.onCooldown) {
+                            if (Intersector.overlaps(unit.hitBox, tower.rangeBox)) {
+                                if(unit.unitAnimator.getState() != Globals.EntityState.DYING) {
+                                    gameActorsGroup.addActor(tower.shoot(unit));
+                                }
+                            }
+                        }
+                    }
+                }
                 stage.act();
+                for (Unit unit : unitDeadList) {
+                    unit.remove();
+                    unitsList.remove(unit);
+                }
+                unitDeadList.clear();
                 if (wall.health <= 0) {
                     victory.setVisible(true);
                     Globals.PAUSED = true;
@@ -94,7 +123,6 @@ public class SiegeGameScreen implements Screen {
     }
 
     public void quit() {
-        dispose();
         game.setScreen(game.startScreen);
     }
 
@@ -103,6 +131,8 @@ public class SiegeGameScreen implements Screen {
         Globals.PAUSED = false;
         stage = new Stage();
         unitsList = new ArrayList<Unit>();
+        unitDeadList = new ArrayList<Unit>();
+        towersList = new ArrayList<Tower>();
         unitDeployer = new UnitDeployer();
         unitDeployer.cell1.setUnit(deployer.cell1.unit);
         unitDeployer.cell2.setUnit(deployer.cell2.unit);
@@ -116,12 +146,28 @@ public class SiegeGameScreen implements Screen {
         stage.addActor(uiGroup);
 
         //Background
-        background = new TexturedActor(GameMain.assetManager.get("backgrounds/siege.png", Texture.class));
+        background = new TexturedActor("backgrounds/siege.png");
         backgroundGroup.addActor(background);
 
         //Game Actors
         wall = new Wall();
         gameActorsGroup.addActor(wall);
+        tower1 = new Tower(Gdx.graphics.getWidth()*0.0555f, Gdx.graphics.getHeight()*0.875f,
+                "characters/towers/tower.png", 5, 400);
+        gameActorsGroup.addActor(tower1);
+        towersList.add(tower1);
+        tower2 = new Tower(Gdx.graphics.getWidth()*0.3055f, Gdx.graphics.getHeight()*0.875f,
+                "characters/towers/tower.png", 5, 400);
+        gameActorsGroup.addActor(tower2);
+        towersList.add(tower2);
+        tower3 = new Tower(Gdx.graphics.getWidth()*0.5555f, Gdx.graphics.getHeight()*0.875f,
+                "characters/towers/tower.png", 5, 400);
+        gameActorsGroup.addActor(tower3);
+        towersList.add(tower3);
+        tower4 = new Tower(Gdx.graphics.getWidth()*0.8055f, Gdx.graphics.getHeight()*0.875f,
+                "characters/towers/tower.png", 5, 400);
+        gameActorsGroup.addActor(tower4);
+        towersList.add(tower4);
 
         //Game Over Overlay
         gameover = new Image(GameMain.assetManager.get("backgrounds/gameover.png", Texture.class));

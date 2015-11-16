@@ -2,7 +2,6 @@ package edu.uco.kkovatana1.siegedefense;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,7 +43,7 @@ public class SiegeGameLoadoutScreen implements Disposable {
     public void show() {
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-        background = new TexturedActor(GameMain.assetManager.get("backgrounds/loadout.png", Texture.class));
+        background = new TexturedActor("backgrounds/loadout.png");
         stage.addActor(background);
 
         //Icons

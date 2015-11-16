@@ -16,6 +16,10 @@ public class Globals {
         NONE, FOOTMAN, GRUNT
     }
 
+    public enum TowerType{
+        NONE, ARROW, CANNON
+    }
+
     public enum GameState{
         LOADOUT, PLAYING
     }
