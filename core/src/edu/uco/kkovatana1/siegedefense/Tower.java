@@ -25,7 +25,7 @@ public class Tower extends TexturedActor{
         this.rangeBox = new Circle(this.getX()+this.getOriginX(),this.getY()+this.getOriginY(),rangeBoxRadius);
         this.seqAction = new SequenceAction();
         this.iconPath = "";
-        this.projectilePath = "characters/projectiles/arrow.png";
+        this.projectilePath = "";
         this.type = Globals.TowerType.NONE;
         this.onCooldown = false;
     }

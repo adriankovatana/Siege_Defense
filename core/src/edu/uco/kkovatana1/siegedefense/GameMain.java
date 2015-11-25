@@ -75,17 +75,27 @@ public class GameMain extends Game {
         assetManager.load("ui/deployercooldown.png", Texture.class);
 
         //Icons
+        assetManager.load("characters/icons/archericon.png", Texture.class);
         assetManager.load("characters/icons/footmanicon.png", Texture.class);
+        assetManager.load("characters/icons/wizardicon.png", Texture.class);
 
         //Units
+        assetManager.load("characters/units/archer.atlas", TextureAtlas.class);
         assetManager.load("characters/units/footman200.atlas", TextureAtlas.class);
+        assetManager.load("characters/units/wizard.atlas", TextureAtlas.class);
         assetManager.load("characters/units/healthbarbackground.png", Texture.class);
         assetManager.load("characters/units/healthbarfill.png", Texture.class);
 
         //Towers
+        assetManager.load("characters/towers/cannon.png", Texture.class);
+        assetManager.load("characters/towers/mage.png", Texture.class);
         assetManager.load("characters/towers/tower.png", Texture.class);
 
         //Projectiles
         assetManager.load("characters/projectiles/arrow.png", Texture.class);
+        assetManager.load("characters/projectiles/arrowS.png", Texture.class);
+        assetManager.load("characters/projectiles/fireball.png", Texture.class);
+        assetManager.load("characters/projectiles/magic.png", Texture.class);
+        assetManager.load("characters/projectiles/orb.png", Texture.class);
     }
 }

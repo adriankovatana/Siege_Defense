@@ -28,7 +28,7 @@ public class SiegeGameScreen implements Screen {
     private Actor selectedActor;
 
     private Group backgroundGroup;
-    protected Group gameActorsGroup;
+    protected static Group gameActorsGroup;
     private SiegeGameUI uiGroup;
 
     protected List<Unit> unitsList;
@@ -152,20 +152,20 @@ public class SiegeGameScreen implements Screen {
         //Game Actors
         wall = new Wall();
         gameActorsGroup.addActor(wall);
-        tower1 = new Tower(Gdx.graphics.getWidth()*0.0555f, Gdx.graphics.getHeight()*0.875f,
-                "characters/towers/tower.png", 5, 400);
+
+        tower1 = getRandomTower(new Vector2(Gdx.graphics.getWidth()*0.0555f, Gdx.graphics.getHeight()*0.875f));
         gameActorsGroup.addActor(tower1);
         towersList.add(tower1);
-        tower2 = new Tower(Gdx.graphics.getWidth()*0.3055f, Gdx.graphics.getHeight()*0.875f,
-                "characters/towers/tower.png", 5, 400);
+
+        tower2 = getRandomTower(new Vector2(Gdx.graphics.getWidth()*0.3055f, Gdx.graphics.getHeight()*0.875f));
         gameActorsGroup.addActor(tower2);
         towersList.add(tower2);
-        tower3 = new Tower(Gdx.graphics.getWidth()*0.5555f, Gdx.graphics.getHeight()*0.875f,
-                "characters/towers/tower.png", 5, 400);
+
+        tower3 = getRandomTower(new Vector2(Gdx.graphics.getWidth()*0.5555f, Gdx.graphics.getHeight()*0.875f));
         gameActorsGroup.addActor(tower3);
         towersList.add(tower3);
-        tower4 = new Tower(Gdx.graphics.getWidth()*0.8055f, Gdx.graphics.getHeight()*0.875f,
-                "characters/towers/tower.png", 5, 400);
+
+        tower4 = getRandomTower(new Vector2(Gdx.graphics.getWidth()*0.8055f, Gdx.graphics.getHeight()*0.875f));
         gameActorsGroup.addActor(tower4);
         towersList.add(tower4);
 
@@ -207,6 +207,12 @@ public class SiegeGameScreen implements Screen {
             case FOOTMAN:
                 tmpUnit = new Footman(position.x, position.y, unit.damage,unit.health);
                 break;
+            case ARCHER:
+                tmpUnit = new Archer(position.x, position.y, unit.damage,unit.health, destination);
+                break;
+            case WIZARD:
+                tmpUnit = new Wizard(position.x, position.y, unit.damage,unit.health, destination);
+                break;
             default:
                 tmpUnit = null;
                 Gdx.app.log("ADD UNIT", "type not found");
@@ -215,5 +221,19 @@ public class SiegeGameScreen implements Screen {
         unitsList.add(tmpUnit);
         gameActorsGroup.addActor(tmpUnit);
         tmpUnit.moveToPosition(destination, false);
+    }
+
+    public Tower getRandomTower(Vector2 position){
+        int random = (int)(Math.random()*100);
+        switch (random%3){
+            case 0:
+                return new ArrowTower(position.x, position.y);
+            case 1:
+                return new CannonTower(position.x, position.y);
+            case 2:
+                return new MageTower(position.x, position.y);
+            default:
+                return null;
+        }
     }
 }

@@ -8,14 +8,22 @@ public class SiegeGame {
     protected int gold;
 
     protected UnitUpgrades footman;
+    protected UnitUpgrades archer;
+    protected UnitUpgrades wizard;
 
     public SiegeGame(){
         level = 0;
-        gold = 100;
+        gold = 200;
 
         footman = new UnitUpgrades(Globals.UnitType.FOOTMAN,50,6,10,60,10,
                 Gdx.graphics.getWidth()*0.18f,Gdx.graphics.getHeight()*0.8f,
                 "characters/icons/footmanicon.png");
+        archer = new UnitUpgrades(Globals.UnitType.ARCHER,50,3,10,60,10,
+                Gdx.graphics.getWidth()*0.68f,Gdx.graphics.getHeight()*0.8f,
+                "characters/icons/archericon.png");
+        wizard = new UnitUpgrades(Globals.UnitType.WIZARD,50,3,10,60,10,
+                Gdx.graphics.getWidth()*0.18f,Gdx.graphics.getHeight()*0.5f,
+                "characters/icons/wizardicon.png");
     }
 
     public boolean purchaseUnit(UnitUpgrades unit){

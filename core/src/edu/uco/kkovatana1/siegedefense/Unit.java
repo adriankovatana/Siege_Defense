@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -29,6 +30,7 @@ public class Unit extends Actor {
     protected String iconPath;
     protected TextureRegion healthbarBack;
     protected TextureRegion healthbarFill;
+    protected Group parentGroup;
 
     public Unit(float x, float y, String atlasFilePath, float damage, float health, float hitBoxRadius, float rangeBoxRadius){
         this.setPosition(x,y);
@@ -46,6 +48,7 @@ public class Unit extends Actor {
         this.type = Globals.UnitType.NONE;
         this.iconPath = "";
         this.dead = false;
+        this.parentGroup = SiegeGameScreen.gameActorsGroup;
 
         this.healthbarBack = new TextureRegion(GameMain.assetManager.get("characters/units/healthbarbackground.png", Texture.class));
         this.healthbarFill = new TextureRegion(GameMain.assetManager.get("characters/units/healthbarfill.png", Texture.class));
@@ -139,7 +142,7 @@ public class Unit extends Actor {
         }
     }
 
-    private void updateCircles(){
+    protected void updateCircles(){
         rangeBox.setPosition(this.getX()+this.getOriginX(),this.getY()+this.getOriginY());
         hitBox.setPosition(this.getX()+this.getOriginX(),this.getY()+this.getOriginY());
     }

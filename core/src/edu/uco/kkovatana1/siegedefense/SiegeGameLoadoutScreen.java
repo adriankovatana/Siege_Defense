@@ -38,6 +38,22 @@ public class SiegeGameLoadoutScreen implements Disposable {
                 return true;
             }
         });
+
+        siegeGame.archer.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                addToLoadout(siegeGame.archer);
+                return true;
+            }
+        });
+
+        siegeGame.wizard.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                addToLoadout(siegeGame.wizard);
+                return true;
+            }
+        });
     }
 
     public void show() {
@@ -97,7 +113,7 @@ public class SiegeGameLoadoutScreen implements Disposable {
         unit1Btn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(!siegeGame.footman.purchased){
+                if (!siegeGame.footman.purchased) {
                     siegeGame.purchaseUnit(siegeGame.footman);
                     unit1Btn.setText("Upgrade");
                 } else {
@@ -108,7 +124,11 @@ public class SiegeGameLoadoutScreen implements Disposable {
         });
         stage.addActor(unit1Btn);
 
-        unit2Btn = new TextButton("Purchase", skin, "default");
+        stage.addActor(siegeGame.archer);
+        if(siegeGame.archer.purchased)
+            unit2Btn = new TextButton("Upgrade", skin, "default");
+        else
+            unit2Btn = new TextButton("Purchase", skin, "default");
         unit2Btn.getLabel().setFontScale(1.5f);
         unit2Btn.setWidth(Gdx.graphics.getWidth() * 0.26f);
         unit2Btn.setHeight(Gdx.graphics.getHeight() * 0.05f);
@@ -116,13 +136,22 @@ public class SiegeGameLoadoutScreen implements Disposable {
         unit2Btn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Unit2Button", "Pressed");
+                if (!siegeGame.archer.purchased) {
+                    siegeGame.purchaseUnit(siegeGame.archer);
+                    unit2Btn.setText("Upgrade");
+                } else {
+                    siegeGame.upgradeDamage(siegeGame.archer);
+                }
                 return true;
             }
         });
         stage.addActor(unit2Btn);
 
-        unit3Btn = new TextButton("Purchase", skin, "default");
+        stage.addActor(siegeGame.wizard);
+        if(siegeGame.wizard.purchased)
+            unit3Btn = new TextButton("Upgrade", skin, "default");
+        else
+            unit3Btn = new TextButton("Purchase", skin, "default");
         unit3Btn.getLabel().setFontScale(1.5f);
         unit3Btn.setWidth(Gdx.graphics.getWidth() * 0.26f);
         unit3Btn.setHeight(Gdx.graphics.getHeight() * 0.05f);
@@ -130,7 +159,12 @@ public class SiegeGameLoadoutScreen implements Disposable {
         unit3Btn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Unit3Button", "Pressed");
+                if (!siegeGame.wizard.purchased) {
+                    siegeGame.purchaseUnit(siegeGame.wizard);
+                    unit3Btn.setText("Upgrade");
+                } else {
+                    siegeGame.upgradeDamage(siegeGame.wizard);
+                }
                 return true;
             }
         });

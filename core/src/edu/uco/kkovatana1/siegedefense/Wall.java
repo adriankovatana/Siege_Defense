@@ -17,7 +17,7 @@ public class Wall extends Actor{
 //    protected ShapeRenderer shapeRenderer;
 
     public Wall(){
-        this.setPosition(5, 1000);
+        this.setPosition(5, 1020);
         this.setWidth(Gdx.graphics.getWidth() - 10);
         this.setHeight(10f);
         this.health = this.maxHealth = 1200f;

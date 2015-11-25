@@ -13,11 +13,13 @@ public class Globals {
     }
 
     public enum UnitType{
-        NONE, FOOTMAN, GRUNT
+        NONE, FOOTMAN, GRUNT,
+        ARCHER,
+        WIZARD
     }
 
     public enum TowerType{
-        NONE, ARROW, CANNON
+        NONE, ARROW, CANNON, MAGE
     }
 
     public enum GameState{
