@@ -27,6 +27,7 @@ public class Unit extends Actor {
     protected boolean attacked;
     protected boolean dead;
     protected Globals.UnitType type;
+    protected Globals.DamageType weakness;
     protected String iconPath;
     protected TextureRegion healthbarBack;
     protected TextureRegion healthbarFill;
@@ -46,6 +47,7 @@ public class Unit extends Actor {
         this.damage = damage;
         this.attacked = false;
         this.type = Globals.UnitType.NONE;
+        this.weakness = Globals.DamageType.NONE;
         this.iconPath = "";
         this.dead = false;
         this.parentGroup = SiegeGameScreen.gameActorsGroup;
@@ -131,8 +133,11 @@ public class Unit extends Actor {
             this.addAction(action);
     }
 
-    public void takeDamage(float damage){
-        this.health -= damage;
+    public void takeDamage(float damage, Globals.DamageType weakness){
+        if(this.weakness == weakness)
+            this.health -= (damage * 1.5f);
+        else
+            this.health -= damage;
         if(this.health <= 0){
             this.health = 0;
             if(unitAnimator.getState() != Globals.EntityState.DYING) {

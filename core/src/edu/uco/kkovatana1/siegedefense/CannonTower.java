@@ -6,5 +6,6 @@ public class CannonTower extends Tower{
         this.iconPath = "";
         this.projectilePath = "characters/projectiles/fireball.png";
         this.type = Globals.TowerType.CANNON;
+        this.damageType = Globals.DamageType.SIEGE;
     }
 }

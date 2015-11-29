@@ -23,4 +23,11 @@ public class UnitDeployer extends Group{
         this.addActor(cell3);
         this.addActor(cell4);
     }
+
+    public void showAmounts(boolean b){
+        cell1.showAmount = b;
+        cell2.showAmount = b;
+        cell3.showAmount = b;
+        cell4.showAmount = b;
+    }
 }

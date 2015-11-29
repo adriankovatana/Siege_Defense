@@ -3,6 +3,7 @@ package edu.uco.kkovatana1.siegedefense;
 public class Globals {
     public static final float ANIMATIONRATE = 0.15f;
     public static boolean PAUSED = false;
+    public static float DIFFICULTY = 1.0f;
 
     public enum EntityState{
         STANDING, WALKING, ATTACKING, DYING
@@ -24,5 +25,9 @@ public class Globals {
 
     public enum GameState{
         LOADOUT, PLAYING
+    }
+
+    public enum DamageType{
+        NONE, PIERCING, SIEGE, MAGIC
     }
 }

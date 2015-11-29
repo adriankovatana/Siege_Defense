@@ -18,7 +18,7 @@ public class StartScreen implements Screen {
     private Stage stage;
     private Skin skin;
 
-    private TextButton defenseBtn;
+    //private TextButton defenseBtn;
     private TextButton siegeBtn;
     private TextButton scoreBtn;
     private Sprite background;
@@ -40,7 +40,7 @@ public class StartScreen implements Screen {
         title.setPosition(Gdx.graphics.getWidth() * 0.02f, Gdx.graphics.getHeight() * 0.55f);
 
         //Base Defense button
-        defenseBtn = new TextButton("Base\nDefense", skin, "default");
+        /*defenseBtn = new TextButton("Base\nDefense", skin, "default");
         defenseBtn.getLabel().setFontScale(2.0f);
         defenseBtn.setWidth(Gdx.graphics.getWidth() * 0.36f);
         defenseBtn.setHeight(Gdx.graphics.getHeight() * 0.1f);
@@ -52,14 +52,17 @@ public class StartScreen implements Screen {
                 return true;
             }
         });
-        stage.addActor(defenseBtn);
+        stage.addActor(defenseBtn);*/
 
         //Siege button
         siegeBtn = new TextButton("Siege", skin, "default");
         siegeBtn.getLabel().setFontScale(2.0f);
-        siegeBtn.setWidth(Gdx.graphics.getWidth() * 0.34f);
+        /*siegeBtn.setWidth(Gdx.graphics.getWidth() * 0.34f);
         siegeBtn.setHeight(Gdx.graphics.getHeight() * 0.1f);
-        siegeBtn.setPosition(Gdx.graphics.getWidth() * 0.41f, Gdx.graphics.getHeight() * 0.02f);
+        siegeBtn.setPosition(Gdx.graphics.getWidth() * 0.41f, Gdx.graphics.getHeight() * 0.02f);*/
+        siegeBtn.setWidth(Gdx.graphics.getWidth() * 0.7f);
+        siegeBtn.setHeight(Gdx.graphics.getHeight() * 0.1f);
+        siegeBtn.setPosition(Gdx.graphics.getWidth() * 0.03f, Gdx.graphics.getHeight() * 0.02f);
         siegeBtn.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

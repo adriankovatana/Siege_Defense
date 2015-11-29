@@ -8,13 +8,15 @@ public class Projectile extends TexturedActor{
     private float damage;
     private float range;
     private float movementSpeed;
+    private Globals.DamageType type;
 
-    public Projectile(float x, float y, float damage, float range, Unit target, String filePath) {
+    public Projectile(float x, float y, float damage, float range, Unit target, Globals.DamageType type, String filePath) {
         super(filePath);
         this.setPosition(x, y);
         this.damage = damage;
         this.target = target;
         this.range = range;
+        this.type = type;
         this.movementSpeed = 0.5f;
         //unit.getX()+unit.getOriginX(),unit.getY()+unit.getOriginY()
         MoveToAction action = new MoveToAction() {
@@ -22,7 +24,7 @@ public class Projectile extends TexturedActor{
             protected void end() {
                 super.end();
                 if(Projectile.this.target != null)
-                    Projectile.this.target.takeDamage(Projectile.this.damage);
+                    Projectile.this.target.takeDamage(Projectile.this.damage,Projectile.this.type);
                 Projectile.this.remove();
             }
         };

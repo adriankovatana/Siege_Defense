@@ -6,5 +6,6 @@ public class ArrowTower extends Tower {
         this.iconPath = "";
         this.projectilePath = "characters/projectiles/arrow.png";
         this.type = Globals.TowerType.ARROW;
+        this.damageType = Globals.DamageType.PIERCING;
     }
 }

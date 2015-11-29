@@ -85,6 +85,10 @@ public class SiegeGameScreen implements Screen {
                 if (wall.health <= 0) {
                     victory.setVisible(true);
                     Globals.PAUSED = true;
+                    distributeVictoryLoot();
+                } else if(isGameOver()){
+                    gameover.setVisible(true);
+                    Globals.PAUSED = true;
                 }
             }
             //RENDER
@@ -138,6 +142,7 @@ public class SiegeGameScreen implements Screen {
         unitDeployer.cell2.setUnit(deployer.cell2.unit);
         unitDeployer.cell3.setUnit(deployer.cell3.unit);
         unitDeployer.cell4.setUnit(deployer.cell4.unit);
+        unitDeployer.showAmounts(true);
         backgroundGroup = new Group();
         gameActorsGroup = new Group();
         uiGroup = new SiegeGameUI(this);
@@ -197,6 +202,7 @@ public class SiegeGameScreen implements Screen {
         victory.setVisible(false);
 
         selectedActor = null;
+        wall.maxHealth = wall.health = 1200*Globals.DIFFICULTY;
         gameState = Globals.GameState.PLAYING;
         Gdx.input.setInputProcessor(stage);
     }
@@ -235,5 +241,26 @@ public class SiegeGameScreen implements Screen {
             default:
                 return null;
         }
+    }
+
+    private boolean isGameOver(){
+        if(unitDeployer.cell1.amount <=0 && unitDeployer.cell2.amount <= 0 &&
+                unitDeployer.cell3.amount <=0 && unitDeployer.cell4.amount <=0 &&
+                unitsList.isEmpty() && unitDeadList.isEmpty())
+            return true;
+        else
+            return false;
+    }
+
+    private void distributeVictoryLoot(){
+        loadoutScreen.siegeGame.level++;
+        Globals.DIFFICULTY += 0.2f;
+
+        int gold = 0;
+        gold += unitDeployer.cell1.amount * 25;
+        gold += unitDeployer.cell2.amount * 25;
+        gold += unitDeployer.cell3.amount * 25;
+        gold += unitDeployer.cell4.amount * 25;
+        loadoutScreen.siegeGame.gold += gold;
     }
 }

@@ -6,5 +6,6 @@ public class MageTower extends Tower{
         this.iconPath = "";
         this.projectilePath = "characters/projectiles/magic.png";
         this.type = Globals.TowerType.MAGE;
+        this.damageType = Globals.DamageType.MAGIC;
     }
 }

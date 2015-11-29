@@ -16,6 +16,7 @@ public class Wizard extends Unit{
         this.target = target;
         this.projectilePath = "characters/projectiles/orb.png";
         this.movementSpeed = 2.5f;
+        this.weakness = Globals.DamageType.PIERCING;
     }
 
     @Override

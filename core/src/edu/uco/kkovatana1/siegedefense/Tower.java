@@ -14,6 +14,7 @@ public class Tower extends TexturedActor{
     protected Globals.TowerType type;
     protected float alphaTime;
     protected boolean onCooldown;
+    protected Globals.DamageType damageType;
 
     public Tower(float x, float y, String filePath, float damage, float rangeBoxRadius){
         super(filePath);
@@ -28,6 +29,7 @@ public class Tower extends TexturedActor{
         this.projectilePath = "";
         this.type = Globals.TowerType.NONE;
         this.onCooldown = false;
+        this.damageType = Globals.DamageType.NONE;
     }
 
     @Override
@@ -46,6 +48,6 @@ public class Tower extends TexturedActor{
 
     public Projectile shoot(Unit unit){
         onCooldown = true;
-        return new Projectile(getX()+getOriginX(), getY()+getOriginY(), 5, rangeBox.radius, unit, projectilePath);
+        return new Projectile(getX()+getOriginX(), getY()+getOriginY(), damage*Globals.DIFFICULTY, rangeBox.radius, unit, damageType, projectilePath);
     }
 }

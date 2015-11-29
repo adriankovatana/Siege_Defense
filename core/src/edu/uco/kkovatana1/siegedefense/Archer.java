@@ -16,6 +16,7 @@ public class Archer extends Unit{
         this.target = target;
         this.projectilePath = "characters/projectiles/arrowS.png";
         this.movementSpeed = 2f;
+        this.weakness = Globals.DamageType.SIEGE;
     }
 
     @Override
